@@ -25,6 +25,7 @@ call plug#begin()
     Plug 'mhinz/vim-startify'
     Plug 'sainnhe/everforest'
     Plug 'pangloss/vim-javascript'
+    Plug 'justinmk/vim-sneak'
 
 call plug#end()
 
