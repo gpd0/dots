@@ -26,6 +26,8 @@ call plug#begin()
     Plug 'sainnhe/everforest'
     Plug 'pangloss/vim-javascript'
     Plug 'justinmk/vim-sneak'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
