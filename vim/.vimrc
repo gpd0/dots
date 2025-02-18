@@ -37,7 +37,9 @@ nnoremap <C-o> :NERDTree<CR>
 nnoremap <C-t> :call ToggleTree()<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
-autocmd VimEnter * NERDTree | wincmd p
+autocmd VimEnter * if argc() == 0 | endif
+autocmd VimEnter * if argc() > 0 | NERDTree | wincmd p | endif
+
 function! IsNERDTreeOpen()        
   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 endfunction
@@ -66,8 +68,13 @@ function! ToggleTree()
 endfunction
 
 autocmd BufEnter * call SyncTree()
+
+" Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
+
+" Open the existing NERDTree on each new tab.
 autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
+
 let NERDTreeShowHidden=1
 let g:NERDTreeFileLines = 1
 " ---
@@ -115,8 +122,9 @@ let g:ascii = [
 
 let g:startify_custom_header = g:ascii
 let g:startify_custom_footer = [
-      \ 'Tip: Press [CTRL] + P for quick file explorer',
-      \ 'Tip: Use :PlugInstall to install all plugins'
+      \ 'Tip: Press [CTRL] + P for quick file explorer!',
+      \ 'Tip: Use :PlugInstall to install all plugins.',
+      \ 'Tip: Use [CTRL] + T to toggle NERD Tree!',
       \ ]
 
 " ---
