@@ -82,6 +82,13 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 " ---
 
+" Coc ---
+nnoremap gd <Plug>(coc-definition)
+nnoremap gr <Plug>(coc-references)
+nnoremap K :call CocActionAsync('doHover')<CR>
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+
 if has("termguicolors")
   set termguicolors
 endif
