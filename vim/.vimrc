@@ -87,7 +87,7 @@ nnoremap gd <Plug>(coc-definition)
 nnoremap gr <Plug>(coc-references)
 nnoremap K :call CocActionAsync('doHover')<CR>
 autocmd CursorHold * silent call CocActionAsync('highlight')
-
+" ---
 
 if has("termguicolors")
   set termguicolors
@@ -97,3 +97,27 @@ let g:airline_powerline_fonts = 1
 let g:webdevicons_enable_airline = 0
 
 set t_RV=
+
+" Startify ---
+let g:ascii = [
+      \ ' /$$$$$$$$ /$$                   /$$   /$$              /$$$$$$ /$$           /$$    /$$ /$$$$$$ /$$      /$$',
+      \ '|__  $$__/| $$                  | $$  | $/             |_  $$_/| $$          | $$   | $$|_  $$_/| $$$    /$$$',
+      \ '   | $$   | $$$$$$$   /$$$$$$  /$$$$$$|_//$$$$$$$        | $$ /$$$$$$        | $$   | $$  | $$  | $$$$  /$$$$',
+      \ '   | $$   | $$__  $$ |____  $$|_  $$_/  /$$_____/        | $$|_  $$_/        |  $$ / $$/  | $$  | $$ $$/$$ $$',
+      \ '   | $$   | $$  \ $$  /$$$$$$$  | $$   |  $$$$$$         | $$  | $$           \  $$ $$/   | $$  | $$  $$$| $$',
+      \ '   | $$   | $$  | $$ /$$__  $$  | $$ /$$\____  $$        | $$  | $$ /$$        \  $$$/    | $$  | $$\  $ | $$',
+      \ '   | $$   | $$  | $$|  $$$$$$$  |  $$$$//$$$$$$$/       /$$$$$$|  $$$$/         \  $/    /$$$$$$| $$ \/  | $$',
+      \ '   |__/   |__/  |__/ \_______/   \___/ |_______/       |______/ \___/            \_/    |______/|__/     |__/',
+      \ '                                                                                                             ',
+      \ '                                                                                                             ',
+      \ '                                                                                                             ',
+      \]
+
+let g:startify_custom_header = g:ascii
+let g:startify_custom_footer = [
+      \ 'Tip: Press [CTRL] + P for quick file explorer',
+      \ 'Tip: Use :PlugInstall to install all plugins'
+      \ ]
+
+" ---
+
