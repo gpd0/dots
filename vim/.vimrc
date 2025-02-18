@@ -34,17 +34,40 @@ colorscheme everforest
 " NERD Tree ----
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-o> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-t> :call ToggleTree()<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
 autocmd VimEnter * NERDTree | wincmd p
-autocmd BufEnter * lcd %:p:h
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
+function! IsNERDTreeOpen()        
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+function! CheckIfCurrentBufferIsFile()
+  return strlen(expand('%')) > 0
+endfunction
+
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && CheckIfCurrentBufferIsFile() && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
+function! ToggleTree()
+  if CheckIfCurrentBufferIsFile()
+    if IsNERDTreeOpen()
+      NERDTreeClose
+    else
+      NERDTreeFind
+    endif
+  else
+    NERDTree
+  endif
+endfunction
+
+autocmd BufEnter * call SyncTree()
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
 autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
-autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
-autocmd BufEnter * if exists("g:NERDTree") && g:NERDTree.IsOpen() | silent execute 'NERDTreeFind' | endif
 let NERDTreeShowHidden=1
 let g:NERDTreeFileLines = 1
 " ---
@@ -59,3 +82,11 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 " ---
 
+if has("termguicolors")
+  set termguicolors
+endif
+
+let g:airline_powerline_fonts = 1
+let g:webdevicons_enable_airline = 0
+
+set t_RV=

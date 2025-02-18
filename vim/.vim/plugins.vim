@@ -28,6 +28,7 @@ call plug#begin()
     Plug 'justinmk/vim-sneak'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+    Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
