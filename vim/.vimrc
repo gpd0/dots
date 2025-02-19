@@ -33,12 +33,12 @@ colorscheme everforest
 
 " NERD Tree ----
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-o> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>:call SyncTree()<CR>
+nnoremap <C-o> :execute (&filetype != 'startify' ? 'NERDTree' : 'echo "NERDTree disabled on Startify"')<CR>
+nnoremap <C-t> :if &filetype != 'startify' \| NERDTreeToggle \| else \| echo "NERDTree disabled on Startify" \| endif<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
 autocmd VimEnter * if argc() == 0 | endif
-autocmd VimEnter * if argc() > 0 | NERDTreeVCS | wincmd p | NERDTreeFind | wincmd p | endif
+autocmd VimEnter * if argc() > 0 && &filetype != 'startify' | NERDTreeVCS | wincmd p | NERDTreeFind | wincmd p | endif
 
 " Check if NERDTree is open or active
 function! IsNERDTreeOpen()
@@ -48,7 +48,7 @@ endfunction
 " Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
 " file, and we're not in vimdiff
 function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff 
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && &filetype != 'startify' && !&diff
     NERDTreeFind
     wincmd p
   endif
@@ -115,6 +115,8 @@ let g:startify_custom_footer = [
       \ 'Tip: Use :PlugInstall to install all plugins.',
       \ 'Tip: Use [CTRL] + T to toggle NERD Tree!',
       \ ]
+
+autocmd FileType startify command! NERDTree echo "NERDTree disabled on Startify"
 
 " ---
 
