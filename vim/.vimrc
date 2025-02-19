@@ -34,46 +34,37 @@ colorscheme everforest
 " NERD Tree ----
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-o> :NERDTree<CR>
-nnoremap <C-t> :call ToggleTree()<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>:call SyncTree()<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
 autocmd VimEnter * if argc() == 0 | endif
-autocmd VimEnter * if argc() > 0 | NERDTree | wincmd p | endif
+autocmd VimEnter * if argc() > 0 | NERDTreeVCS | wincmd p | endif
 
-function! IsNERDTreeOpen()        
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 endfunction
 
-function! CheckIfCurrentBufferIsFile()
-  return strlen(expand('%')) > 0
-endfunction
-
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
 function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && CheckIfCurrentBufferIsFile() && !&diff
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
     NERDTreeFind
     wincmd p
   endif
 endfunction
 
-function! ToggleTree()
-  if CheckIfCurrentBufferIsFile()
-    if IsNERDTreeOpen()
-      NERDTreeClose
-    else
-      NERDTreeFind
-    endif
-  else
-    NERDTree
-  endif
-endfunction
-
-autocmd BufEnter * call SyncTree()
+" Highlight currently open buffer in NERDTree
+autocmd BufRead * call SyncTree()
 
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
 
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
+" autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
+autocmd BufEnter * if &filetype != 'startify' && exists('t:startify') | NERDTree | wincmd p | NERDTreeFind | wincmd p | unlet t:startify | endif
+
+autocmd User Startified let t:startify = 1
 
 let NERDTreeShowHidden=1
 let g:NERDTreeFileLines = 1
@@ -83,7 +74,7 @@ let g:NERDTreeFileLines = 1
 nnoremap <C-p> :Files<CR>
 
 let g:fzf_action = {
-  \ 'enter': 'tab drop',
+  \ 'enter': 'edit',
   \ 'ctrl-t': 'tabnew',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
