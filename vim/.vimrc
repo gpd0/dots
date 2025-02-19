@@ -2,6 +2,7 @@
 
 " LOAD PLUGINS ---
 source ~/.vim/plugins.vim
+source ~/.vim/patch.vim
 " ---
 
 set number
