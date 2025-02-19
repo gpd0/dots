@@ -38,7 +38,7 @@ nnoremap <C-t> :NERDTreeToggle<CR>:call SyncTree()<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 
 autocmd VimEnter * if argc() == 0 | endif
-autocmd VimEnter * if argc() > 0 | NERDTreeVCS | wincmd p | endif
+autocmd VimEnter * if argc() > 0 | NERDTreeVCS | wincmd p | NERDTreeFind | wincmd p | endif
 
 " Check if NERDTree is open or active
 function! IsNERDTreeOpen()
@@ -48,7 +48,7 @@ endfunction
 " Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
 " file, and we're not in vimdiff
 function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff 
     NERDTreeFind
     wincmd p
   endif
@@ -60,12 +60,10 @@ autocmd BufRead * call SyncTree()
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
 
-" Open the existing NERDTree on each new tab.
-" autocmd BufWinEnter * if &buftype != 'quickfix' && getcmdwintype() == '' | silent NERDTreeMirror | endif
-autocmd BufEnter * if &filetype != 'startify' && exists('t:startify') | NERDTree | wincmd p | NERDTreeFind | wincmd p | unlet t:startify | endif
-
+autocmd BufEnter * if &filetype != 'startify' && exists('t:startify') | NERDTreeVCS | wincmd p | NERDTreeFind | wincmd p | unlet t:startify | endif
 autocmd User Startified let t:startify = 1
 
+let g:NERDTreeHijackNetrw = 0
 let NERDTreeShowHidden=1
 let g:NERDTreeFileLines = 1
 " ---
