@@ -3,9 +3,12 @@
 " LOAD PLUGINS ---
 source ~/.vim/plugins.vim
 source ~/.vim/patch.vim
+source ~/.vim/nerdtree.vim
+source ~/.vim/fzf.vim
+source ~/.vim/startify.vim
 " ---
 
-set number
+"set number
 set mouse=a
 set clipboard=unnamed
 set path+=**
@@ -28,57 +31,13 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+if has("termguicolors")
+  set termguicolors
+endif
+
 syntax enable
 set background=dark  " or set background=light for light mode
 colorscheme everforest
-
-" NERD Tree ----
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-o> :execute (&filetype != 'startify' ? 'NERDTree' : 'echo "NERDTree disabled on Startify"')<CR>
-nnoremap <C-t> :if &filetype != 'startify' \| NERDTreeToggle \| else \| echo "NERDTree disabled on Startify" \| endif<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
-
-autocmd VimEnter * if argc() == 0 | endif
-autocmd VimEnter * if argc() > 0 && &filetype != 'startify' | NERDTreeVCS | wincmd p | NERDTreeFind | wincmd p | endif
-
-" Check if NERDTree is open or active
-function! IsNERDTreeOpen()
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && &filetype != 'startify' && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
-endfunction
-
-" Highlight currently open buffer in NERDTree
-autocmd BufRead * call SyncTree()
-
-" Close the tab if NERDTree is the only window remaining in it.
-autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
-
-autocmd BufEnter * if &filetype != 'startify' && exists('t:startify') | NERDTreeVCS | wincmd p | NERDTreeFind | wincmd p | unlet t:startify | endif
-autocmd User Startified let t:startify = 1
-
-let g:NERDTreeHijackNetrw = 0
-let NERDTreeShowHidden=1
-let g:NERDTreeFileLines = 1
-" ---
-
-" FZF ---
-nnoremap <C-p> :Files<CR>
-
-let g:fzf_action = {
-  \ 'enter': 'edit',
-  \ 'ctrl-t': 'tabnew',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
-" ---
 
 " Coc ---
 nnoremap gd <Plug>(coc-definition)
@@ -87,37 +46,7 @@ nnoremap K :call CocActionAsync('doHover')<CR>
 autocmd CursorHold * silent call CocActionAsync('highlight')
 " ---
 
-if has("termguicolors")
-  set termguicolors
-endif
-
 let g:airline_powerline_fonts = 1
 let g:webdevicons_enable_airline = 0
 
 set t_RV=
-
-" Startify ---
-let g:ascii = [
-      \ ' /$$$$$$$$ /$$                   /$$   /$$              /$$$$$$ /$$           /$$    /$$ /$$$$$$ /$$      /$$',
-      \ '|__  $$__/| $$                  | $$  | $/             |_  $$_/| $$          | $$   | $$|_  $$_/| $$$    /$$$',
-      \ '   | $$   | $$$$$$$   /$$$$$$  /$$$$$$|_//$$$$$$$        | $$ /$$$$$$        | $$   | $$  | $$  | $$$$  /$$$$',
-      \ '   | $$   | $$__  $$ |____  $$|_  $$_/  /$$_____/        | $$|_  $$_/        |  $$ / $$/  | $$  | $$ $$/$$ $$',
-      \ '   | $$   | $$  \ $$  /$$$$$$$  | $$   |  $$$$$$         | $$  | $$           \  $$ $$/   | $$  | $$  $$$| $$',
-      \ '   | $$   | $$  | $$ /$$__  $$  | $$ /$$\____  $$        | $$  | $$ /$$        \  $$$/    | $$  | $$\  $ | $$',
-      \ '   | $$   | $$  | $$|  $$$$$$$  |  $$$$//$$$$$$$/       /$$$$$$|  $$$$/         \  $/    /$$$$$$| $$ \/  | $$',
-      \ '   |__/   |__/  |__/ \_______/   \___/ |_______/       |______/ \___/            \_/    |______/|__/     |__/',
-      \ '                                                                                                             ',
-      \ '                                                                                                             ',
-      \]
-
-let g:startify_custom_header = g:ascii
-let g:startify_custom_footer = [
-      \ 'Tip: Press [CTRL] + P for quick file explorer!',
-      \ 'Tip: Use :PlugInstall to install all plugins.',
-      \ 'Tip: Use [CTRL] + T to toggle NERD Tree!',
-      \ ]
-
-autocmd FileType startify command! NERDTree echo "NERDTree disabled on Startify"
-
-" ---
-
