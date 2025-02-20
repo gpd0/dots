@@ -8,7 +8,7 @@ source ~/.vim/fzf.vim
 source ~/.vim/startify.vim
 " ---
 
-"set number
+set number
 set mouse=a
 set clipboard=unnamed
 set path+=**
