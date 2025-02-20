@@ -24,7 +24,6 @@ call plug#begin()
     Plug 'preservim/nerdtree'
     Plug 'mhinz/vim-startify'
     Plug 'sainnhe/everforest'
-    Plug 'pangloss/vim-javascript'
     Plug 'justinmk/vim-sneak'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
