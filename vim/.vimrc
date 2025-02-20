@@ -1,5 +1,11 @@
 " Vim RC Config
 
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 " LOAD PLUGINS ---
 source ~/.vim/plugins.vim
 source ~/.vim/patch.vim
@@ -25,18 +31,22 @@ set autoindent
 set showmode showcmd
 set showmatch
 
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+set ignorecase
+set smartcase
+
+set hlsearch
+set incsearch
+
+set scrolloff=8
+
+filetype plugin indent on
 
 if has("termguicolors")
   set termguicolors
 endif
 
 syntax enable
-set background=dark  " or set background=light for light mode
+set background=dark
 colorscheme everforest
 
 " Coc ---
