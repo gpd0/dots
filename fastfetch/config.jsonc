@@ -5,7 +5,7 @@
         "height": 15,
         "width": 30,
         "padding": {
-            "top": 5,
+            "top": 3,
             "left": 3
         },
         "source" : "/home/itz/Downloads/f082b39b58cc80708093d183fbdd0c9a.jpg"
@@ -33,7 +33,7 @@
         },
         {
             "type": "memory",
-            "key": "│ ├󰍛",
+            "key": "│ ├",
             "keyColor": "green"
         },
         {
@@ -52,12 +52,12 @@
         },
         {
             "type": "os",
-            "key": " OS",
+            "key": "󰣇 OS",
             "keyColor": "yellow"
         },
         {
             "type": "kernel",
-            "key": "│ ├",
+            "key": "│ ├",
             "keyColor": "yellow"
         },
         {
@@ -105,32 +105,7 @@
             "type": "custom",
             "format": "\u001b[90m└────────────────────────────────────────────────────┘"
         },
-        "break",
-        {
-            "type": "custom",
-            "format": "\u001b[90m┌────────────────────Uptime / Age / DT────────────────────┐"
-        },
-        {
-            "type": "command",
-            "key": "  OS Age ",
-            "keyColor": "magenta",
-            "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
-        },
-        {
-            "type": "uptime",
-            "key": "  Uptime ",
-            "keyColor": "magenta"
-        },
-        {
-            "type": "datetime",
-            "key": "  DateTime ",
-            "keyColor": "magenta"
-        },
-        {
-            "type": "custom",
-            "format": "\u001b[90m└─────────────────────────────────────────────────────────┘"
-        },
-        "break",
+        "break"
     ]
 }
 
