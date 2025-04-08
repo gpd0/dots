@@ -119,3 +119,15 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Volume up
+XF86AudioRaiseVolume
+    pamixer -i 5 && dunstify -r 9993 -t 800 "🔊 Volume: $(pamixer --get-volume)%"
+
+# Volume down
+XF86AudioLowerVolume
+    pamixer -d 5 && dunstify -r 9993 -t 800 "🔉 Volume: $(pamixer --get-volume)%"
+
+# Mute toggle
+XF86AudioMute
+    pamixer -t && dunstify -r 9993 -t 800 "🔇 Muted: $(pamixer --get-mute)"
